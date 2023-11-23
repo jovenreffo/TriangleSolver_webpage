@@ -7,6 +7,7 @@
 
     <script src="libraries/p5.min.js"></script>
     <link rel="stylesheet" href="style.css">
+    <script src="drawing.js"></script>
     <script src="main.js"></script>
   </head>
 
@@ -16,6 +17,7 @@
         </div>
         <div class="main-controls">
             <div class="content-align">
+              <h1>Please enter two known values:</h1>
               <form>
                 <label for="leg1">Leg 1</label>
                 <input type="number" id="leg1" name="leg1" min="1" onkeypress="validateInput(event)">
@@ -26,6 +28,8 @@
               </form>
               <button class="btn btn-main btn-padding" onclick="solveTriangle()">Calculate</button>
               <h3 id="invalid-input-prompt" class="btn-padding">Please enter a non-zero, non-negative input.</h3>
+              <h3 id="large-value-prompt" class="btn-padding">Input too large.</h3>
+              <h3 id="unreal-triangle-prompt" class="btn-padding">Inputs do not create a right triangle: hypotenuse cannot be less than or equal to side lengths.</h3>
             </div>
         </div>
   </body>

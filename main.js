@@ -1,88 +1,69 @@
 // Define a max number to prevent overflow
 let MAX_NUM = 9007199254740991;
 
-// Define the canvas as a global variable so it can be accessed wherever.
-let mainCanvas;
-
-// Sub-method to be called in setup() when initializing the canvas.
-function centreCanvas() {
-  // Get the window dimensions
-  let windowWidth = window.innerWidth;
-  let windowHeight = window.innerHeight;
-
-  // Obtain coordinates for the middle of the screen
-  let x = (windowWidth - width) / 2;
-  let y = (windowHeight - height) / 2;
-
-  mainCanvas.position(x, y);
-} 
-
-// This setup() functions initializes components of the p5 library as soon as the site is running.
-function setup()
-{
-  // Create the canvas
-  mainCanvas = createCanvas(400, 400);
-  centreCanvas();
-  background(30, 30, 30);
-
-  // Set colors for filling in the shapes
-  fill(18, 124, 211);
-  stroke(0, 0, 0);
-
-  // Draw an initial triangle
-  triangle(700, 400, 900, 400, 700, 250);
-}
-
-// Event that will automatically be called by p5 when the user resizes their browser window.
-// This will ensure the canvas stays centered on the screen, no matter what.
-function windowResized() {
-  centreCanvas();
-}
-
 function validateInput(event) {
   let char = String.fromCharCode(event.which);
+  let val = Number(char);
 
   // If the current character is a decimal place, let it be typed
   if (char == '.'){
     return;
   }
 
+  if (val <= 0 || val > MAX_NUM) {
+    document.getElementById("invalid-input-prompt").style.display = 'block';
+  }
+  else {
+    document.getElementById("invalid-input-prompt").style.display = 'none';
+  }
+
   // If the input is anything except a number or decimal, do not allow it to be typed
-  // TODO: add value conditions here
-  if (!(/[0-9]/.test(char))){
+  if (!(/[0-9]/.test(char))) {
     event.preventDefault()
   }
 }
 
 function validateNumInput(inputValue) {
   console.log(inputValue);
+  let val = Number(inputValue);
 
-  if ((inputValue == 0 || inputValue < 0 ||inputValue > MAX_NUM) && inputValue != '') {
-    console.log("Invalid");
-    document.getElementById("invalid-input-prompt").style.display = 'block';
-  }
-  else if (inputValue > 0 || inputValue == '') {
+  if (val > 0 || inputValue == '') {
     console.log("Valid")
     document.getElementById("invalid-input-prompt").style.display = 'none';
   }
 }
 
-function drawTriangleWithLegs() {
-
-}
-
-function drawGivenLegAndHyp() {
-  
+function validateAllInputs(leg1, leg2, hyp) {
+  if (leg1 > MAX_NUM || leg2 > MAX_NUM || hyp > MAX_NUM) { // Test if any inputs are too large for Javascript to handle.
+    document.getElementById("large-value-prompt").style.display = 'block';
+    return false;
+  }
+  else if(leg1.length === 0 || leg2.length === 0 || hyp.length === 0) { // Okay for a side to be empty
+    document.getElementById("invalid-input-prompt").style.display = 'none';
+    return true;
+  }
+  else if (leg1 <= 0 || leg2 <= 0 || hyp <= 0) { // Conduct another zero or negative input test.
+    document.getElementById("invalid-input-prompt").style.display = 'block';
+    return false;
+  }
+  else { // If there are no issues, disable the messages.
+    document.getElementById("large-value-prompt").style.display = 'none';
+    document.getElementById("invalid-input-prompt").style.display = 'none';
+    document.getElementById("unreal-triangle-prompt").style.display = 'none';
+    return true;
+  }
 }
 
 function solveTriangle() {
   // Retrieve the values from the text fields and ensure they are valid.  
   let leg1 = document.getElementById("leg1").value;
-  //validateNumInput(leg1);
-
   let leg2 = document.getElementById("leg2").value;
-  //validateNumInput(leg2);
-  
   let hyp = document.getElementById("hyp").value;
-  //validateNumInput(hyp);
+
+  // Call method for ensuring the inputs create a real right triangle
+  if (validateAllInputs(leg1, leg2, hyp)) {
+    console.log("OK");
+    drawTriangle(leg1, leg2, hyp);
+    drawCoordinateText(leg1, leg2, hyp, 500, 500);
+  }
 }
