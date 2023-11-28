@@ -17,9 +17,14 @@ function centreCanvas() {
 // This function will be reused when the Calculate button is clicked and a new canvas will be created.
 function initializeCanvas() {
   // Create the canvas
-  mainCanvas = createCanvas(500, 500);
+  mainCanvas = createCanvas(800, 500);
   centreCanvas();
   background(50, 50, 50);
+}
+
+// function for rounding to 3 decimal places
+function fastRnd(value) {
+  return Math.round(value * 1000) / 2000;
 }
 
 function drawCoordinateText(leg1, leg2, hyp, cnvWidth, cnvHeight) {
@@ -33,9 +38,47 @@ function drawCoordinateText(leg1, leg2, hyp, cnvWidth, cnvHeight) {
   // legs were given, hypotenuse was not entered
   if (leg1.length > 0 && leg2.length > 0 && hyp.length === 0) {
     // Calculate the hypotenuse
-    let hypCalc = sqrt(Math.pow(leg1, 2) + Math.pow(leg2, 2));
-    hyp = hypCalc.toFixed(3);
+    let hyp = sqrt(Math.pow(leg1, 2) + Math.pow(leg2, 2)).toFixed(3);
+    console.log(hyp);
     
+    // Obtain the width of strings, in pixels.
+    let leg1TextWidth = textWidth(leg1);
+    let leg2TextWidth = textWidth(leg2);
+    let hypTextWidth = textWidth(hyp);
+
+    let x1 = (cnvWidth / 2) - leg1TextWidth; let y1 = ((cnvHeight / 2) + ((cnvHeight/2) / 2) + 30);
+    let x2 = (cnvWidth / 2) - 210 - leg2TextWidth; let y2 = (cnvHeight / 2) + (leg2TextWidth / 2);
+    let x3 = (cnvWidth / 2); let y3 = (cnvHeight / 2) - 10;
+    
+    text(leg1, x1, y1);
+    text(leg2, x2, y2);
+    text(hyp, x3, y3);
+  }
+
+  // hypotenuse and leg1 were given
+  if (leg1.length > 0 && hyp.length > 0 && leg2.length === 0) {
+    leg2 = sqrt(Math.pow(hyp, 2) - Math.pow(leg1, 2)).toFixed(3);
+    console.log(leg2);
+
+    // Obtain the width of strings, in pixels.
+    let leg1TextWidth = textWidth(leg1);
+    let leg2TextWidth = textWidth(leg2);
+    let hypTextWidth = textWidth(hyp);
+
+    let x1 = (cnvWidth / 2) - leg1TextWidth; let y1 = ((cnvHeight / 2) + ((cnvHeight/2) / 2) + 30);
+    let x2 = (cnvWidth / 2) - 210 - leg2TextWidth; let y2 = (cnvHeight / 2) + (leg2TextWidth / 2);
+    let x3 = (cnvWidth / 2); let y3 = (cnvHeight / 2) - 10;
+    
+    text(leg1, x1, y1);
+    text(leg2, x2, y2);
+    text(hyp, x3, y3);
+  }
+
+  // hypotenuse and leg2 were given
+  if (leg2.length > 0 && hyp.length > 0 && leg1.length === 0) {
+    leg1 = sqrt(Math.pow(hyp, 2) - Math.pow(leg2, 2)).toFixed(3);
+    console.log(leg1);
+
     // Obtain the width of strings, in pixels.
     let leg1TextWidth = textWidth(leg1);
     let leg2TextWidth = textWidth(leg2);

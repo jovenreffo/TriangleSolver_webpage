@@ -33,12 +33,30 @@ function validateNumInput(inputValue) {
   }
 }
 
+function clearAllMessages() {
+  document.getElementById("large-value-prompt").style.display = 'none';
+  document.getElementById("invalid-input-prompt").style.display = 'none';
+  document.getElementById("unreal-triangle-prompt").style.display = 'none';
+}
+
 function validateAllInputs(leg1, leg2, hyp) {
+  // Clear all messages before displaying again
+  clearAllMessages();
+  
+  if (leg1.length === 0 && leg2.length === 0 && hyp.length === 0) { // All sides are empty
+    return false;
+  }
+  
+  if (hyp <= leg1 || hyp <= leg2 || leg1 >= hyp || leg2 >= hyp) {
+    document.getElementById("unreal-triangle-prompt").style.display = 'block';
+    return false;
+  }
+
   if (leg1 > MAX_NUM || leg2 > MAX_NUM || hyp > MAX_NUM) { // Test if any inputs are too large for Javascript to handle.
     document.getElementById("large-value-prompt").style.display = 'block';
     return false;
   }
-  else if(leg1.length === 0 || leg2.length === 0 || hyp.length === 0) { // Okay for a side to be empty
+  else if (leg1.length === 0 || leg2.length === 0 || hyp.length === 0) { // Okay for a side to be empty
     document.getElementById("invalid-input-prompt").style.display = 'none';
     return true;
   }
@@ -64,6 +82,6 @@ function solveTriangle() {
   if (validateAllInputs(leg1, leg2, hyp)) {
     console.log("OK");
     drawTriangle(leg1, leg2, hyp);
-    drawCoordinateText(leg1, leg2, hyp, 500, 500);
+    drawCoordinateText(leg1, leg2, hyp, 800, 500);
   }
 }
