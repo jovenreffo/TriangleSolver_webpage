@@ -46,8 +46,12 @@ function validateAllInputs(leg1, leg2, hyp) {
   if (leg1.length === 0 && leg2.length === 0 && hyp.length === 0) { // All sides are empty
     return false;
   }
+
+  if (hyp.length === 0 && leg1.length > 0 && leg2.length > 0) {
+    return true;
+  }
   
-  if (hyp <= leg1 || hyp <= leg2 || leg1 >= hyp || leg2 >= hyp) {
+  if (hyp <= leg1 || hyp <= leg2)  {
     document.getElementById("unreal-triangle-prompt").style.display = 'block';
     return false;
   }
