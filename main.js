@@ -47,7 +47,7 @@ function validateAllInputs(leg1, leg2, hyp) {
     return false;
   }
 
-  if (hyp.length === 0 && leg1.length > 0 && leg2.length > 0) {
+  if ((hyp.length === 0 && leg1.length > 0 && leg2.length > 0) || (leg1.length === 0 && hyp.length > 0 && leg2.length > 0) || (leg2.length === 0 && hyp.length > 0 && leg1.length > 0)) {
     return true;
   }
   
