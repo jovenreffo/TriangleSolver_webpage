@@ -37,6 +37,7 @@ function clearAllMessages() {
   document.getElementById("large-value-prompt").style.display = 'none';
   document.getElementById("invalid-input-prompt").style.display = 'none';
   document.getElementById("unreal-triangle-prompt").style.display = 'none';
+  document.getElementById("two-inputs-only").style.display = 'none';
 }
 
 function validateAllInputs(leg1, leg2, hyp) {
@@ -45,6 +46,11 @@ function validateAllInputs(leg1, leg2, hyp) {
   
   if (leg1.length === 0 && leg2.length === 0 && hyp.length === 0) { // All sides are empty
     return false;
+  }
+
+  if (leg1.length > 0 && leg2.length > 0 && hyp.length > 0) { // All sides are valid
+    document.getElementById("two-inputs-only").style.display = 'block';
+    return false
   }
 
   if ((hyp.length === 0 && leg1.length > 0 && leg2.length > 0) || (leg1.length === 0 && hyp.length > 0 && leg2.length > 0) || (leg2.length === 0 && hyp.length > 0 && leg1.length > 0)) {
@@ -72,6 +78,7 @@ function validateAllInputs(leg1, leg2, hyp) {
     document.getElementById("large-value-prompt").style.display = 'none';
     document.getElementById("invalid-input-prompt").style.display = 'none';
     document.getElementById("unreal-triangle-prompt").style.display = 'none';
+    document.getElementById("two-inputs-only").style.display = 'none';
     return true;
   }
 }
